@@ -8,14 +8,12 @@ interface Grid {
 
 const Grid = ({ columns, items }) => {
   const ref = useRef(null);
-
   const [bounds, setBounds] = useState(null);
   const [columnWidth, setColumnWidth] = useState(0);
 
   const remeasure = () => {
     if (ref.current) {
       setBounds(ref.current.getBoundingClientRect());
-      console.log(ref.current.getBoundingClientRect());
     }
   };
 
@@ -39,11 +37,20 @@ const Grid = ({ columns, items }) => {
     const column = i - row * columns;
     return [column * columnWidth, row * columnWidth]
   };
-  
+
+  const getIndexFromPos = (x: number, y: number) => {
+    const column = Math.floor(x / columnWidth);
+    const row = Math.floor(y / columnWidth);
+    const maxRow = items.length / columns;
+    const targetIndex = row + column * columns;
+    if(targetIndex > items.length || row > maxRow) return items.length;
+    return row + column * columns;
+  }
+
   return (
     <div ref={ref}>
       {items.map((item, i) => (
-        <GridItem width={columnWidth} pos={getPos(i)}  />
+        <GridItem num={item} width={columnWidth} pos={getPos(i)} getIndexFromPos={getIndexFromPos}  />
       ))}
     </div>
   );
