@@ -42,9 +42,10 @@ const Grid = ({ columns, items }) => {
     const column = Math.floor(x / columnWidth);
     const row = Math.floor(y / columnWidth);
     const maxRow = items.length / columns;
-    const targetIndex = row + column * columns;
-    if(targetIndex > items.length || row > maxRow) return items.length;
-    return row + column * columns;
+    const targetIndex = (row * columns) + column;
+    
+    if(targetIndex > items.length - 1 || row > maxRow) return items.length - 1;
+    return targetIndex;
   }
 
   return (
