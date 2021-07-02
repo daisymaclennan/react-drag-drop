@@ -5,4 +5,8 @@ export default {
   title: "Grid"
 };
 
-export const Primary = () => <Grid />;
+export const Three = () => <Grid columns={3} items={[0, 1, 2, 3, 4, 5, 6, 7]} />;
+
+export const Four = () => <Grid columns={4} items={[0, 1, 2, 3, 4, 5, 6, 7]} />;
+
+export const Five = () => <Grid columns={5} items={[0, 1, 2, 3, 4, 5, 6, 7]} />;

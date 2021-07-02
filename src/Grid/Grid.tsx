@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import GridItem from "./GridItem";
 
-const Grid = () => {
+interface Grid {
+    columns: number;
+    items: number[];
+}
+
+const Grid = ({ columns, items }) => {
   const ref = useRef(null);
-  const columns = 2;
-  const items = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const [bounds, setBounds] = useState(null);
   const [columnWidth, setColumnWidth] = useState(0);
@@ -34,14 +37,9 @@ const Grid = () => {
   const getPos = (i: number) => {
     const row = Math.floor(i / columns);
     const column = i - row * columns;
-    console.log("i:", i);
-    console.log("row:", row);
-    console.log("column:", column);
-    console.log("columnWidth:", columnWidth);
-    console.log("bounds", bounds)
-
     return [column * columnWidth, row * columnWidth]
   };
+  
   return (
     <div ref={ref}>
       {items.map((item, i) => (
