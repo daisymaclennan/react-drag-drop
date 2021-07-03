@@ -4,7 +4,6 @@ import { motion, useAnimation } from "framer-motion";
 interface GridItemProps {
   item: number;
   width: number;
-  pos: [number, number];
   getIndexFromPos: (x: number, y: number) => number;
   getPos: (i: number) => number[];
   updateOrder: (before: number, after: number) => void;
@@ -14,7 +13,6 @@ interface GridItemProps {
 const GridItem = ({
   item,
   width,
-  pos,
   getIndexFromPos,
   getPos,
   updateOrder,
@@ -33,27 +31,26 @@ const GridItem = ({
     });
   };
 
+  
+
   useEffect(() => {
     // Whenever the order of items changes move to the new position
-    snapToNewPos(itemOrder.indexOf(item));
-    setIndex(itemOrder.indexOf(item));
+    if (itemOrder.indexOf(item) !== index) {
+      snapToNewPos(itemOrder.indexOf(item));
+      setIndex(itemOrder.indexOf(item));
+    }
   }, [itemOrder]);
 
   return (
     <motion.div
       drag
       animate={controls}
-      onDrag={(event, info) => {
-        console.log("event:", event);
-        console.log("info:", info);
-        console.log(getIndexFromPos(info.point.x, info.point.y));
-      }}
       onDragStart={() => setIsDragging(true)}
       onDragEnd={(event, info) => {
         const newIndex = getIndexFromPos(info.point.x, info.point.y);
         setIsDragging(false);
-        updateOrder(index, newIndex);
         snapToNewPos(newIndex);
+        updateOrder(index, newIndex);
       }}
       whileTap={{
         scale: 1.1,
@@ -61,16 +58,20 @@ const GridItem = ({
       }}
       className={isDragging ? "dragging" : ""}
       style={{
+        border: "1px solid green",
         background: "pink",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontWeight: "bold",
+        color: "white",
         width: `${width}px`,
         height: `${width}px`,
         position: "absolute",
-        border: "1px solid green",
         zIndex: isDragging ? 3 : 1,
         scale: isDragging ? 1.1 : 1,
-        x: pos[0],
-        y: pos[1],
-        transition: "scale 0.5s ease-in",
+        /* x: getPos(index)[0],
+        y: getPos(index)[1], */
       }}
     >
       {item}
