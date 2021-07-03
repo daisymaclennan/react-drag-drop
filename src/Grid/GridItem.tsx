@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 interface GridItemProps {
-  num: number;
+  item: number;
   width: number;
   pos: [number, number];
   getIndexFromPos: (x: number, y: number) => number;
-  getPos: (i: number) => [number, number];
+  getPos: (i: number) => number[];
+  updateOrder: (before: number, after: number) => void;
+  itemOrder: number[];
 }
 
 const GridItem = ({
-  num,
+  item,
   width,
   pos,
   getIndexFromPos,
   getPos,
+  updateOrder,
+  itemOrder,
 }: GridItemProps) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [index, setIndex] = useState(itemOrder.indexOf(item));
   const controls = useAnimation();
 
   const snapToNewPos = (i: number) => {
@@ -24,8 +29,15 @@ const GridItem = ({
     controls.start({
       x: `${newPos[0]}px`,
       y: `${newPos[1]}px`,
+      transition: { duration: 1, type: 'spring' },
     });
   };
+
+  useEffect(() => {
+    // Whenever the order of items changes move to the new position
+    snapToNewPos(itemOrder.indexOf(item));
+  }, [itemOrder]);
+
   return (
     <motion.div
       drag
@@ -37,8 +49,10 @@ const GridItem = ({
       }}
       onDragStart={() => setIsDragging(true)}
       onDragEnd={(event, info) => {
+        const newIndex = getIndexFromPos(info.point.x, info.point.y);
         setIsDragging(false);
-        snapToNewPos(getIndexFromPos(info.point.x, info.point.y));
+        snapToNewPos(newIndex);
+        updateOrder(index, newIndex);
       }}
       whileTap={{
         scale: 1.1,
@@ -58,7 +72,7 @@ const GridItem = ({
         transition: "scale 0.5s ease-in",
       }}
     >
-      {num}
+      {item}
     </motion.div>
   );
 };
