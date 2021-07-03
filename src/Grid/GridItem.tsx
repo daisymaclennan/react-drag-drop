@@ -29,13 +29,14 @@ const GridItem = ({
     controls.start({
       x: `${newPos[0]}px`,
       y: `${newPos[1]}px`,
-      transition: { duration: 1, type: 'spring' },
+      transition: { duration: 1, type: "spring" },
     });
   };
 
   useEffect(() => {
     // Whenever the order of items changes move to the new position
     snapToNewPos(itemOrder.indexOf(item));
+    setIndex(itemOrder.indexOf(item));
   }, [itemOrder]);
 
   return (
@@ -51,8 +52,8 @@ const GridItem = ({
       onDragEnd={(event, info) => {
         const newIndex = getIndexFromPos(info.point.x, info.point.y);
         setIsDragging(false);
-        snapToNewPos(newIndex);
         updateOrder(index, newIndex);
+        snapToNewPos(newIndex);
       }}
       whileTap={{
         scale: 1.1,

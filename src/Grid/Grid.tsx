@@ -21,6 +21,7 @@ const Grid = ({ columns, items }) => {
 
   const updateItemOrder = (before: number, after: number) => {
     const newOrder = arrayMove(itemOrder, before, after);
+    console.log('newOrder:', newOrder)
     setItemOrder(newOrder);
   };
 
@@ -51,13 +52,15 @@ const Grid = ({ columns, items }) => {
     const maxRow = items.length / columns;
     const targetIndex = row * columns + column;
 
+    console.log('targetIndex:', targetIndex)
+
     if (targetIndex > items.length - 1 || row > maxRow) return items.length - 1;
     return targetIndex;
   };
 
   return (
     <div ref={ref}>
-      {itemOrder.map((item, i) => (
+      {items.map((item, i) => (
         <GridItem
           item={item}
           width={columnWidth}
