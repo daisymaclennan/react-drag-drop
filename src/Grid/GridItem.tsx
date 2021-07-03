@@ -20,6 +20,11 @@ const GridItem = ({ num, width, pos, getIndexFromPos }: GridItemProps) => {
       }}
       onDragStart={() => setIsDragging(true)}
       onDragEnd={() => setIsDragging(false)}
+      whileTap={{
+        scale: 1.1,
+        zIndex: 3,
+      }}
+      className={isDragging ? 'dragging' : ''}
       style={{
         background: "pink",
         width: `${width}px`,
