@@ -51,7 +51,7 @@ const Grid = ({ columns, items }) => {
   return (
     <div ref={ref}>
       {items.map((item, i) => (
-        <GridItem num={item} width={columnWidth} pos={getPos(i)} getIndexFromPos={getIndexFromPos}  />
+        <GridItem num={item} width={columnWidth} pos={getPos(i)} getIndexFromPos={getIndexFromPos} getPos={getPos}  />
       ))}
     </div>
   );
