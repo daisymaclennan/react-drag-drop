@@ -31,7 +31,10 @@ const GridItem = ({
     });
   };
 
-  
+  useEffect(() => {
+    // Whenever the order of items changes move to the new position
+    snapToNewPos(index);
+  }, [width]);
 
   useEffect(() => {
     // Whenever the order of items changes move to the new position

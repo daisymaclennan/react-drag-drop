@@ -15,6 +15,7 @@ const Grid = ({ columns, items }) => {
 
   const remeasure = () => {
     if (ref.current) {
+      console.log('remeasure')
       setBounds(ref.current.getBoundingClientRect());
     }
   };
